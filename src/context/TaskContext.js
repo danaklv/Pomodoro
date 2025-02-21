@@ -34,6 +34,8 @@ const TaskProvider = ({ children }) => {
             )
         );
     };
+ 
+    
 
     return (
         <TaskContext.Provider value={{ tasks, addTask, editTask, deleteTask, toggleTaskStatus }}>

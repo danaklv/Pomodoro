@@ -12,17 +12,12 @@ const ListContainer = styled.div`
   background: ${({ theme }) => theme.cardBackground};
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
   margin-left: 200px;
   min-width: 700px;
 `;
 
 
-// const ListContainer = styled.div`
-//   background: ${({ theme }) => theme.cardBackground};
-//   padding: 20px;
-//   border-radius: 10px;
-// `;
 
 const TaskList = () => {
     const { tasks } = useContext(TaskContext);

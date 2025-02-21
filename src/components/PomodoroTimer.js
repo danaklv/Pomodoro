@@ -66,13 +66,6 @@ const ArrowButton = styled.button`
     }
 `;
 
-const Select = styled.select`
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid ${({ theme }) => theme.primaryColor};
-`;
 
 const ButtonContainer = styled.div`
     display: flex;
@@ -89,6 +82,7 @@ const DurationForm = styled.div`
 `;
 
 const DurationInput = styled.input`
+    
     padding: 8px;
     width: 80px;
     border: 1px solid ${({ theme }) => theme.primaryColor};
@@ -110,6 +104,46 @@ const CircularTimerContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+`;
+
+
+const DurationModal = styled.div`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: ${({ theme }) => theme.cardBackground};
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    display: ${({ show }) => (show ? 'block' : 'none')};
+`;
+
+const Overlay = styled.div`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: ${({ show }) => (show ? 'block' : 'none')};
+    z-index: 999;
+`;
+
+const StyledSelect = styled.select`
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 2px solid ${({ theme }) => theme.primaryColor};
+    background: ${({ theme }) => theme.cardBackground};
+    color: ${({ theme }) => theme.textColor};
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        border-color: ${({ theme }) => theme.buttonHover};
+    }
 `;
 
 const PomodoroTimer = () => {
@@ -235,26 +269,98 @@ const PomodoroTimer = () => {
     // Determine the total time for the current session.
     const totalTime = mode === 'Work' ? workDuration : currentBreakDuration;
 
+    // return (
+    //     <TimerContainer>
+    //         <SettingsButton onClick={() => setShowDurationSettings(!showDurationSettings)}>
+    //             &#x2699;
+    //         </SettingsButton>
+    //         <h3>{mode} Timer</h3>
+    //         <Select value={selectedTaskId} onChange={(e) => setSelectedTaskId(e.target.value)}>
+    //             <option value="">-- Select a Task --</option>
+    //             {tasks.map(task => (
+    //                 <option key={task.id} value={task.id}>
+    //                     {task.name} ({task.status})
+    //                 </option>
+    //             ))}
+    //         </Select>
+    //         {selectedTask && mode === 'Work' && (
+    //             <p>
+    //                 Working on: <strong>{selectedTask.name}</strong>
+    //             </p>
+    //         )}
+    //         {showDurationSettings && (
+    //             <DurationForm>
+    //                 <div>
+    //                     <label>
+    //                         Work Duration (min):
+    //                         <DurationInput
+    //                             type="number"
+    //                             min="1"
+    //                             value={workDurationInput}
+    //                             onChange={(e) => setWorkDurationInput(Number(e.target.value))}
+    //                         />
+    //                     </label>
+    //                 </div>
+    //                 <div>
+    //                     <label>
+    //                         Break Duration (min):
+    //                         <DurationInput
+    //                             type="number"
+    //                             min="1"
+    //                             value={shortBreakInput}
+    //                             onChange={(e) => setShortBreakInput(Number(e.target.value))}
+    //                         />
+    //                     </label>
+    //                 </div>
+    //                 <SetDurationButton onClick={updateDurations}>
+    //                     Set Durations
+    //                 </SetDurationButton>
+    //             </DurationForm>
+    //         )}
+    //         <CircularTimerContainer>
+    //             <CircularTimer seconds={seconds} totalTime={totalTime} formatTime={formatTime} />
+    //         </CircularTimerContainer>
+    //         <ButtonContainer>
+    //             <div>
+    //                 <TimerButton onClick={toggleTimer}>
+    //                     {isActive ? 'Pause' : 'Start'}
+    //                 </TimerButton>
+    //                 <TimerButton onClick={resetTimer}>Reset</TimerButton>
+    //             </div>
+    //             <ArrowButton
+    //                 onClick={mode === 'Work' ? skipToBreak : skipBreak}
+    //                 title={mode === 'Work' ? "Skip to Break" : "Skip Break"}
+    //             >
+    //                 &#x27A1;
+    //             </ArrowButton>
+    //         </ButtonContainer>
+    //     </TimerContainer>
+    // );
+
+
+
+
     return (
         <TimerContainer>
             <SettingsButton onClick={() => setShowDurationSettings(!showDurationSettings)}>
                 &#x2699;
             </SettingsButton>
             <h3>{mode} Timer</h3>
-            <Select value={selectedTaskId} onChange={(e) => setSelectedTaskId(e.target.value)}>
-                <option value="">-- Select a Task --</option>
+            <StyledSelect value={selectedTaskId} onChange={(e) => setSelectedTaskId(e.target.value)}>
+                <option value="" disabled> Select a Task </option>
                 {tasks.map(task => (
                     <option key={task.id} value={task.id}>
                         {task.name} ({task.status})
                     </option>
                 ))}
-            </Select>
+            </StyledSelect>
             {selectedTask && mode === 'Work' && (
                 <p>
                     Working on: <strong>{selectedTask.name}</strong>
                 </p>
             )}
-            {showDurationSettings && (
+            <Overlay show={showDurationSettings} onClick={() => setShowDurationSettings(false)} />
+            <DurationModal show={showDurationSettings}>
                 <DurationForm>
                     <div>
                         <label>
@@ -266,6 +372,8 @@ const PomodoroTimer = () => {
                                 onChange={(e) => setWorkDurationInput(Number(e.target.value))}
                             />
                         </label>
+                        
+                        
                     </div>
                     <div>
                         <label>
@@ -282,7 +390,7 @@ const PomodoroTimer = () => {
                         Set Durations
                     </SetDurationButton>
                 </DurationForm>
-            )}
+            </DurationModal>
             <CircularTimerContainer>
                 <CircularTimer seconds={seconds} totalTime={totalTime} formatTime={formatTime} />
             </CircularTimerContainer>
@@ -302,6 +410,11 @@ const PomodoroTimer = () => {
             </ButtonContainer>
         </TimerContainer>
     );
+    
+
+
+
+
 };
 
 // CircularTimer renders an SVG circular clock that shows the remaining time
