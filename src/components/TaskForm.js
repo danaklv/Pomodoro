@@ -42,7 +42,7 @@ const SubmitButton = styled.button`
   transition: background 0.2s ease-in;
 
   &:hover {
-    background: #388e3c;
+    background: ${({ theme }) => theme.buttonHover};
   }
 `;
 
