@@ -14,7 +14,7 @@ export const lightTheme = {
     buttonHover: 'rgb(218, 190, 153)',
 
   
-    navBackground: '#ffffff',
+    navBackground: 'rgba(92, 129, 194, 0.38)',
     primaryText: '#235789',
     linkHover: '#3A5683'
 };
@@ -23,13 +23,12 @@ export const darkTheme = {
     bodyBackground: `url(${darktbackgroundImage}) no-repeat center/cover fixed`,
     textColor: '#dfe6e9',
     cardBackground: 'rgba(10, 38, 59, 0.47)',
-    primaryColor: '#1B263B',
+    primaryColor: 'rgb(29, 129, 172)',
     secondaryColor: 'rgba(10, 38, 59)',
     borderColor: '#636e72',
-    buttonHover: 'rgb(29, 129, 172)',
+    buttonHover: 'rgb(23, 72, 93)',
 
-    // Добавленные свойства
-    navBackground: '#1B263B',
+    navBackground: 'rgba(10, 38, 59, 0.24)',
     primaryText: '#dfe6e9',
     linkHover: '#81ecec'
 };

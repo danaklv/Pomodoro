@@ -20,6 +20,7 @@ const Logo = styled.h2`
   font-size: 22px;
   font-weight: bold;
   color: ${({ theme }) => theme.primaryText};
+  font-family: 'Roboto', sans-serif;
 `;
 
 const NavLinks = styled.div`
@@ -51,7 +52,7 @@ const Navbar = () => {
 
   return (
     <NavContainer>
-      <Logo>Task Manager</Logo>
+      <Logo>Pomodoro</Logo>
       <NavLinks>
         <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Main</Link>
         <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>About</Link>

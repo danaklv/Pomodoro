@@ -13,10 +13,14 @@ const TimerContainer = styled.div`
     margin-bottom: 20px;
     margin-right: 200px;
     margin-left: 200px;
+  
     text-align: center;
    
    
 `;
+
+
+
 
 const SettingsButton = styled.button`
     background: transparent;
@@ -62,7 +66,7 @@ const ArrowButton = styled.button`
     transition: background 0.2s ease-in;
 
     &:hover {
-        background: #388e3c;
+        background:${({ theme }) => theme.buttonHover};
     }
 `;
 
@@ -269,74 +273,6 @@ const PomodoroTimer = () => {
     // Determine the total time for the current session.
     const totalTime = mode === 'Work' ? workDuration : currentBreakDuration;
 
-    // return (
-    //     <TimerContainer>
-    //         <SettingsButton onClick={() => setShowDurationSettings(!showDurationSettings)}>
-    //             &#x2699;
-    //         </SettingsButton>
-    //         <h3>{mode} Timer</h3>
-    //         <Select value={selectedTaskId} onChange={(e) => setSelectedTaskId(e.target.value)}>
-    //             <option value="">-- Select a Task --</option>
-    //             {tasks.map(task => (
-    //                 <option key={task.id} value={task.id}>
-    //                     {task.name} ({task.status})
-    //                 </option>
-    //             ))}
-    //         </Select>
-    //         {selectedTask && mode === 'Work' && (
-    //             <p>
-    //                 Working on: <strong>{selectedTask.name}</strong>
-    //             </p>
-    //         )}
-    //         {showDurationSettings && (
-    //             <DurationForm>
-    //                 <div>
-    //                     <label>
-    //                         Work Duration (min):
-    //                         <DurationInput
-    //                             type="number"
-    //                             min="1"
-    //                             value={workDurationInput}
-    //                             onChange={(e) => setWorkDurationInput(Number(e.target.value))}
-    //                         />
-    //                     </label>
-    //                 </div>
-    //                 <div>
-    //                     <label>
-    //                         Break Duration (min):
-    //                         <DurationInput
-    //                             type="number"
-    //                             min="1"
-    //                             value={shortBreakInput}
-    //                             onChange={(e) => setShortBreakInput(Number(e.target.value))}
-    //                         />
-    //                     </label>
-    //                 </div>
-    //                 <SetDurationButton onClick={updateDurations}>
-    //                     Set Durations
-    //                 </SetDurationButton>
-    //             </DurationForm>
-    //         )}
-    //         <CircularTimerContainer>
-    //             <CircularTimer seconds={seconds} totalTime={totalTime} formatTime={formatTime} />
-    //         </CircularTimerContainer>
-    //         <ButtonContainer>
-    //             <div>
-    //                 <TimerButton onClick={toggleTimer}>
-    //                     {isActive ? 'Pause' : 'Start'}
-    //                 </TimerButton>
-    //                 <TimerButton onClick={resetTimer}>Reset</TimerButton>
-    //             </div>
-    //             <ArrowButton
-    //                 onClick={mode === 'Work' ? skipToBreak : skipBreak}
-    //                 title={mode === 'Work' ? "Skip to Break" : "Skip Break"}
-    //             >
-    //                 &#x27A1;
-    //             </ArrowButton>
-    //         </ButtonContainer>
-    //     </TimerContainer>
-    // );
-
 
 
 
@@ -417,55 +353,54 @@ const PomodoroTimer = () => {
 
 };
 
-// CircularTimer renders an SVG circular clock that shows the remaining time
-// and a progress arc that starts at the top.
+
+
 const CircularTimer = ({ seconds, totalTime, formatTime }) => {
-    const theme = useTheme(); // Use the current theme to fix text color in dark mode.
+    const theme = useTheme();
     const radius = 120;
     const stroke = 10;
     const normalizedRadius = radius - stroke;
     const circumference = normalizedRadius * 2 * Math.PI;
-    // Calculate progress (1 means full time left, 0 means finished).
     const progress = seconds / totalTime;
     const strokeDashoffset = circumference - (1 - progress) * circumference;
 
     return (
-        <svg height={radius * 2} width={radius * 2}>
-            {/* Background circle */}
-            <circle
-                stroke="#e6e6e6"
-                fill="transparent"
-                strokeWidth={stroke}
-                r={normalizedRadius}
-                cx={radius}
-                cy={radius}
-            />
-            {/* Progress arc rotated -90 degrees so it starts from the top */}
-            <circle
-                stroke="#2F3061"
-                fill="transparent"
-                strokeWidth={stroke}
-                strokeLinecap="round"
-                strokeDasharray={`${circumference} ${circumference}`}
-                style={{ strokeDashoffset }}
-                r={normalizedRadius}
-                cx={radius}
-                cy={radius}
-                transform={`rotate(-90 ${radius} ${radius})`}
-            />
-            {/* Centered remaining time text */}
-            <text
-                x="50%"
-                y="50%"
-                dy=".3em"
-                textAnchor="middle"
-                fill={theme.textColor}
-                fontSize="50px"
-            >
-                {formatTime(seconds)}
-            </text>
-        </svg>
+        <div style={{ marginTop: "20px" }}> 
+            <svg height={radius * 2} width={radius * 2}>
+                <circle
+                    stroke="#e6e6e6"
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius}
+                />
+                <circle
+                    stroke={theme.primaryColor}
+                    fill="transparent"
+                    strokeWidth={stroke}
+                    strokeLinecap="round"
+                    strokeDasharray={`${circumference} ${circumference}`}
+                    style={{ strokeDashoffset }}
+                    r={normalizedRadius}
+                    cx={radius}
+                    cy={radius}
+                    transform={`rotate(-90 ${radius} ${radius})`}
+                />
+                <text
+                    x="50%"
+                    y="50%"
+                    dy=".3em"
+                    textAnchor="middle"
+                    fill={theme.textColor}
+                    fontSize="50px"
+                >
+                    {formatTime(seconds)}
+                </text>
+            </svg>
+        </div>
     );
 };
+
 
 export default PomodoroTimer;
