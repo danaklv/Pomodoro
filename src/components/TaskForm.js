@@ -1,4 +1,4 @@
-// src/components/TaskForm.js
+
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { TaskContext } from '../context/TaskContext';
@@ -53,9 +53,9 @@ const TaskForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (name.trim() === '') return; // Ensure a task name is provided
+        if (name.trim() === '') return; 
 
-        // Create a new task with a unique id (using Date.now() as a simple method)
+        
         const newTask = {
             id: Date.now(),
             name,

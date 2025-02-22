@@ -1,4 +1,4 @@
-// src/styles/GlobalStyles.js
+
 import { createGlobalStyle } from 'styled-components';
 
 

@@ -15,6 +15,9 @@ const ListContainer = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-left: 200px;
   min-width: 700px;
+
+
+   
 `;
 
 

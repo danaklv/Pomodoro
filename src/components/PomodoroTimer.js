@@ -15,12 +15,23 @@ const TimerContainer = styled.div`
     margin-left: 200px;
   
     text-align: center;
-   
+    
+
+    @media (max-width: 1024px) {
+        min-width: 500px;
+        margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+        min-width: 100%;
+        padding: 15px;
+    }
+
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
    
 `;
-
-
-
 
 const SettingsButton = styled.button`
     background: transparent;
