@@ -34,11 +34,26 @@ const TaskProvider = ({ children }) => {
             )
         );
     };
+
+    const updateTomatoCount = (taskId, newCount) => {
+        setTasks((prevTasks) =>
+          prevTasks.map((task) =>
+            task.id === taskId
+              ? { 
+                  ...task, 
+                  completedTomatoes: newCount,
+                  status: newCount >= task.tomatoCount ? "Completed" : "In progress" 
+                }
+              : task
+          )
+        );
+      };
+      
  
     
 
     return (
-        <TaskContext.Provider value={{ tasks, addTask, editTask, deleteTask, toggleTaskStatus }}>
+        <TaskContext.Provider value={{ tasks, addTask, editTask, deleteTask, toggleTaskStatus,updateTomatoCount }}>
             {children}
         </TaskContext.Provider>
     );

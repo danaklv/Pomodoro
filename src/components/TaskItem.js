@@ -4,7 +4,7 @@ import React, { useContext, useState, useRef, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { TaskContext } from "../context/TaskContext";
-import { FaEllipsisV, FaCheckCircle, FaUndo } from "react-icons/fa";
+import { FaEllipsisV, FaCheckCircle, FaUndo, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 
 const ItemContainer = styled.div`
   padding: 15px;
@@ -143,6 +143,16 @@ const EditModal = ({ task, onClose, onSave }) => {
           }
           placeholder="Task Description"
         />
+         <Input
+          type="number"
+          value={editedTask.tomatoCount}
+          onChange={(e) =>
+            setEditedTask({ ...editedTask, tomatoCount: Number(e.target.value) })
+          }
+          placeholder="Number of Tomatoes"
+          min="1"
+        />
+
         <ButtonGroup>
           <Button onClick={onClose}>Close</Button>
           <Button primary onClick={() => onSave(editedTask)}>
@@ -155,8 +165,13 @@ const EditModal = ({ task, onClose, onSave }) => {
   );
 };
 
+
+
+
 const TaskItem = ({ task }) => {
-  const { deleteTask, toggleTaskStatus, editTask } = useContext(TaskContext);
+
+  
+  const { deleteTask, toggleTaskStatus, editTask, updateTomatoCount } = useContext(TaskContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const menuRef = useRef(null);
@@ -179,14 +194,23 @@ const TaskItem = ({ task }) => {
     setIsEditing(false);
   };
 
+  
+
   return (
     <ItemContainer>
       <div>
         <h4>{task.name}</h4>
         <p>{task.description}</p>
+        <p>🍅 Tomatoes: {task.completedTomatoes}/{task.tomatoCount}</p>
         <small>Status: {task.status}</small>
       </div>
       <TaskActions>
+      <IconButton onClick={() => updateTomatoCount(task.id, task.completedTomatoes - 1)} disabled={task.completedTomatoes === 0} >
+      <FaMinusCircle/>
+    </IconButton>
+    <IconButton onClick={() => updateTomatoCount(task.id, task.completedTomatoes + 1)}  disabled={task.completedTomatoes >= task.tomatoCount} >
+    <FaPlusCircle />
+    </IconButton>
         {}
         <IconButton onClick={() => toggleTaskStatus(task.id)}>
           {task.status === "In progress" ? <FaCheckCircle /> : <FaUndo />}

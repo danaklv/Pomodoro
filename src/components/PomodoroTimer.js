@@ -297,13 +297,13 @@ const PomodoroTimer = () => {
                 <option value="" disabled> Select a Task </option>
                 {tasks.map(task => (
                     <option key={task.id} value={task.id}>
-                        {task.name} ({task.status})
+                       {task.name} ({task.status}) - {task.completedTomatoes}/{task.tomatoCount} 🍅
                     </option>
                 ))}
             </StyledSelect>
             {selectedTask && mode === 'Work' && (
                 <p>
-                    Working on: <strong>{selectedTask.name}</strong>
+                      Working on: <strong>{selectedTask.name}</strong> ({selectedTask.completedTomatoes}/{selectedTask.tomatoCount} 🍅)
                 </p>
             )}
             <Overlay show={showDurationSettings} onClick={() => setShowDurationSettings(false)} />

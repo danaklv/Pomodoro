@@ -50,6 +50,7 @@ const TaskForm = () => {
     const { addTask } = useContext(TaskContext);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [tomatoCount, setTomatoCount] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,12 +61,15 @@ const TaskForm = () => {
             id: Date.now(),
             name,
             description,
+            tomatoCount,
+            completedTomatoes: 0,
             status: 'In progress',
         };
 
         addTask(newTask);
         setName('');
         setDescription('');
+        setTomatoCount('');
     };
 
     return (
@@ -83,6 +87,14 @@ const TaskForm = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 rows="3"
             />
+             <Input
+            type="number"
+            placeholder="Number of Tomatoes"
+            value={tomatoCount}
+            onChange={(e) => setTomatoCount(Number(e.target.value))}
+            min="1"
+            required
+        />
             <SubmitButton type="submit">Add Task</SubmitButton>
         </FormContainer>
     );
